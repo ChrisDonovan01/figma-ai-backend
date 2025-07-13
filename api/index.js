@@ -7,7 +7,6 @@ const app = express();
 
 // Explicitly enable robust CORS handling for Figma plugin compatibility
 app.use(cors({ origin: true }));
-
 app.use(express.json());
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -40,5 +39,6 @@ app.get('/', (req, res) => {
   res.send('Server is running.');
 });
 
-// Export the Express app for Vercel serverless functions
-module.exports = app;
+// Vercel handler for Express
+const serverless = require('serverless-http');
+module.exports = serverless(app);
