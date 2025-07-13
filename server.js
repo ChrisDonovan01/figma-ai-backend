@@ -40,6 +40,5 @@ app.get('/', (req, res) => {
   res.send('Server is running.');
 });
 
-app.listen(3000, () => {
-  console.log("Server running explicitly on port 3000");
-});
+// Export the Express app for Vercel serverless functions
+module.exports = app;
