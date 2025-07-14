@@ -6,7 +6,7 @@ const serverless = require('serverless-http');
 
 const app = express();
 
-// Explicitly enable robust CORS handling for Figma plugin compatibility
+// Enable robust CORS handling for Figma plugin compatibility
 app.use(cors({ origin: true }));
 app.use(express.json());
 
@@ -17,6 +17,7 @@ if (!process.env.OPENAI_API_KEY) {
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+// Generate Component Endpoint
 app.post('/generate-component', async (req, res) => {
   const { componentName } = req.body;
 
@@ -45,15 +46,15 @@ app.post('/generate-component', async (req, res) => {
   }
 });
 
-// Explicit root endpoint for quick testing
+// Simplified Root Endpoint for Testing
 app.get('/', (req, res) => {
-  res.json({ message: 'Server is running.' });
+  res.send('Hello world!');
 });
 
 // Vercel handler for Express
 module.exports = serverless(app);
 
-// Local development server (only runs outside of Vercel)
+// Local Development Server (only runs outside of Vercel)
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
