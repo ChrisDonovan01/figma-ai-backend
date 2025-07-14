@@ -20,6 +20,10 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 app.post('/generate-component', async (req, res) => {
   const { componentName } = req.body;
 
+  if (!componentName) {
+    return res.status(400).json({ error: 'componentName is required' });
+  }
+
   const prompt = `
   Generate concise JSX (React) code explicitly for a UI component called "${componentName}". 
   Optimize for executive-level usability in healthcare analytics, 
@@ -37,7 +41,7 @@ app.post('/generate-component', async (req, res) => {
     res.json({ code: response.choices[0].message.content.trim() });
   } catch (error) {
     console.error('Error generating component:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message || 'Failed to generate component.' });
   }
 });
 
