@@ -2,12 +2,18 @@ const express = require('express');
 const cors = require('cors');
 const OpenAI = require('openai');
 require('dotenv').config();
+const serverless = require('serverless-http');
 
 const app = express();
 
 // Explicitly enable robust CORS handling for Figma plugin compatibility
 app.use(cors({ origin: true }));
 app.use(express.json());
+
+// Check for OpenAI API key
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error('Missing OpenAI API key in environment variables.');
+}
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -30,15 +36,23 @@ app.post('/generate-component', async (req, res) => {
 
     res.json({ code: response.choices[0].message.content.trim() });
   } catch (error) {
+    console.error('Error generating component:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
 // Explicit root endpoint for quick testing
 app.get('/', (req, res) => {
-  res.send('Server is running.');
+  res.json({ message: 'Server is running.' });
 });
 
 // Vercel handler for Express
-const serverless = require('serverless-http');
 module.exports = serverless(app);
+
+// Local development server (only runs outside of Vercel)
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
