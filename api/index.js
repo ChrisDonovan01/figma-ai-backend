@@ -6,12 +6,13 @@ const serverless = require('serverless-http');
 
 const app = express();
 
-// Enable robust CORS handling for Figma plugin compatibility
+// Enable CORS for compatibility with Figma plugin
 app.use(cors({ origin: true }));
 app.use(express.json());
 
-// Check for OpenAI API key
+// Validate OpenAI API key
 if (!process.env.OPENAI_API_KEY) {
+  console.error('Error: Missing OpenAI API key in environment variables.');
   throw new Error('Missing OpenAI API key in environment variables.');
 }
 
@@ -20,16 +21,14 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 // Generate Component Endpoint
 app.post('/generate-component', async (req, res) => {
   const { componentName } = req.body;
+  console.log('Request received for /generate-component with componentName:', componentName);
 
   if (!componentName) {
+    console.error('Error: componentName is required');
     return res.status(400).json({ error: 'componentName is required' });
   }
 
-  const prompt = `
-  Generate concise JSX (React) code explicitly for a UI component called "${componentName}". 
-  Optimize for executive-level usability in healthcare analytics, 
-  ensuring strategic alignment, clarity, measurable ROI, and excellent UX.
-  `;
+  const prompt = `Generate concise JSX code for a component named "${componentName}"`;
 
   try {
     const response = await openai.chat.completions.create({
@@ -39,6 +38,7 @@ app.post('/generate-component', async (req, res) => {
       max_tokens: 1000
     });
 
+    console.log('OpenAI response:', response.choices[0].message.content.trim());
     res.json({ code: response.choices[0].message.content.trim() });
   } catch (error) {
     console.error('Error generating component:', error);
@@ -46,9 +46,10 @@ app.post('/generate-component', async (req, res) => {
   }
 });
 
-// Simplified Root Endpoint for Testing
+// Simplified Root Endpoint for Debugging
 app.get('/', (req, res) => {
-  res.send('Hello world!');
+  console.log('Root endpoint accessed.');
+  res.send('Root endpoint is working!');
 });
 
 // Vercel handler for Express
@@ -58,6 +59,6 @@ module.exports = serverless(app);
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running locally on port ${PORT}`);
   });
 }
