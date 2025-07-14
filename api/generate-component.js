@@ -9,11 +9,20 @@ module.exports = async (req, res) => {
 
   try {
     const response = await axios.post(
-      "https://api.openai.com/v1/completions",
+      "https://api.openai.com/v1/chat/completions",
       {
-        model: "text-davinci-003",
-        prompt: `Generate clean and valid JSX code for a Figma UI component named "${componentName}".`,
-        max_tokens: 200,
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: "Generate clean and valid React JSX code for Figma UI components explicitly.",
+          },
+          {
+            role: "user",
+            content: `Generate a React JSX component explicitly named "${componentName}".`,
+          },
+        ],
+        max_tokens: 500,
         temperature: 0.2,
       },
       {
@@ -22,9 +31,11 @@ module.exports = async (req, res) => {
       }
     );
 
+    const generatedCode = response.data.choices[0].message.content.trim();
+
     res.status(200).json({
       componentName,
-      code: response.data.choices[0].text.trim(),
+      code: generatedCode,
     });
 
   } catch (error) {
