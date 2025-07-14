@@ -11,11 +11,11 @@ module.exports = async (req, res) => {
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
-        model: "gpt-4o",
+        model: "gpt-4o-2024-08-06",
         messages: [
           {
             role: "system",
-            content: "Generate clean and valid React JSX code for Figma UI components explicitly.",
+            content: "Generate clean and valid React JSX code explicitly for Figma UI components.",
           },
           {
             role: "user",
@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("OpenAI API Error:", error.message);
+    console.error("OpenAI API Error:", error.response ? error.response.data : error.message);
     res.status(500).json({ error: "OpenAI request failed", details: error.message });
   }
 };
