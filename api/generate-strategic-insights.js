@@ -27,11 +27,25 @@ module.exports = async (req, res) => {
           messages: [
             {
               role: 'system',
-              content: 'Explicitly generate a visually appealing React JSX snippet wrapped in clear structural components (cards, grids, sections) using Tailwind CSS for healthcare analytics dashboards. Return pure JSX code only, no markdown, explanations, imports, exports, or comments.',
+              content: `
+                Explicitly generate a visually appealing, interactive JSX component using React.js, Tailwind CSS, and Recharts, clearly addressing healthcare analytics dashboards. 
+                Explicitly address persona Jamie Reynolds (Director of Informatics/Analytics), focusing on these pain points:
+                  - Quickly identifying strategic alignment gaps.
+                  - Clearly communicating analytics value to executives.
+                  - Real-time visibility into analytics strategic alignment deviations.
+                
+                Required elements:
+                  - Numeric alignment scores (0-100).
+                  - Color-coded alignment status indicators (Green ≥80, Yellow 70-79, Red <70).
+                  - Interactive drill-down explicitly linked to KPIs and alignment criteria.
+                  - Clearly sortable/filterable analytics initiatives.
+
+                Provide pure JSX only, explicitly omitting markdown, explanations, imports, exports, and comments.
+              `,
             },
             {
               role: 'user',
-              content: `Generate visually appealing and structured JSX for: ${componentName}. Additional parameters: ${JSON.stringify(additionalParams)}`
+              content: `Explicitly generate structured JSX for component: ${componentName}. Additional parameters: ${JSON.stringify(additionalParams)}`
             },
           ],
           temperature: 0.2,
