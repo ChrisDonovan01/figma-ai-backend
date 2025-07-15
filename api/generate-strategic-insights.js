@@ -1,3 +1,4 @@
+// Explicit redeployment trigger comment: (update timestamp here)
 const cors = require('cors')({
   origin: ['https://cs-poc-pr0n8qqumo0fl7jqn1n8qhk.web.app', 'http://localhost:3000'],
   methods: ['POST', 'OPTIONS'],
