@@ -13,15 +13,12 @@ module.exports = (req, res) => {
     }
 
     if (req.method === 'POST') {
-      const { componentName, userPrompt } = req.body;
-
-      // Explicit TEMPORARY valid JSX for testing frontend visibility
       const aiGeneratedCode = {
         jsx: `<div style="padding:20px; color:green; font-size:20px;">
-                Explicitly generated JSX is loading correctly!
+                Explicitly generated HTML is loading correctly!
               </div>`,
-        css: `/* Temporary explicit test CSS */`,
-        insights: "Temporary explicit test insights."
+        css: `/* Explicit test CSS */`,
+        insights: "Explicit test insights."
       };
 
       res.status(200).json({
