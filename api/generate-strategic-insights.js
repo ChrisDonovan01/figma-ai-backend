@@ -1,4 +1,4 @@
-// Explicit redeployment trigger comment: (2025-07-14)
+// Explicit redeployment trigger comment: (2025-07-15)
 const cors = require('cors')({
   origin: ['https://cs-poc-pr0n8qqumo0fl7jqn1n8qhk.web.app', 'http://localhost:3000'],
   methods: ['POST', 'OPTIONS'],
@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
           messages: [
             {
               role: 'system',
-              content: 'You are explicitly generating JSX code snippets for a healthcare analytics Strategic Alignment Dashboard.',
+              content: 'You explicitly generate clean JSX code snippets for a healthcare analytics Strategic Alignment Dashboard. Return only pure JSX code, no markdown, explanations, or comments.',
             },
             {
               role: 'user',
