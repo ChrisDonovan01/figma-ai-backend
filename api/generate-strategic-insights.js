@@ -27,11 +27,11 @@ module.exports = async (req, res) => {
           messages: [
             {
               role: 'system',
-              content: 'You explicitly generate only pure JSX code snippets for healthcare analytics components. Never include markdown, explanations, backticks, import statements, export statements, or any non-JSX content.',
+              content: 'Explicitly generate a visually appealing React JSX snippet wrapped in clear structural components (cards, grids, sections) using Tailwind CSS for healthcare analytics dashboards. Return pure JSX code only, no markdown, explanations, imports, exports, or comments.',
             },
             {
               role: 'user',
-              content: `Explicitly generate a pure JSX code snippet for the component: ${componentName}. Additional parameters: ${JSON.stringify(additionalParams)}`
+              content: `Generate visually appealing and structured JSX for: ${componentName}. Additional parameters: ${JSON.stringify(additionalParams)}`
             },
           ],
           temperature: 0.2,
@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
         res.status(200).json({
           success: true,
           jsx: jsxCode,
-          insights: "Explicitly AI-generated JSX insights."
+          insights: "Explicitly AI-generated structured JSX insights."
         });
 
       } catch (error) {
