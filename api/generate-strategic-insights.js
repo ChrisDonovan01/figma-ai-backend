@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
     }
 
     if (req.method === 'POST') {
-      const { prompt } = req.body;
+      const { componentName, additionalParams } = req.body;
 
       try {
         const completion = await openai.chat.completions.create({
@@ -27,11 +27,11 @@ module.exports = async (req, res) => {
           messages: [
             {
               role: 'system',
-              content: 'You explicitly generate clean JSX code snippets for a healthcare analytics Strategic Alignment Dashboard. Return only pure JSX code, no markdown, explanations, or comments.',
+              content: 'You explicitly generate only pure JSX code snippets for healthcare analytics components. Never include markdown, explanations, backticks, import statements, export statements, or any non-JSX content.',
             },
             {
               role: 'user',
-              content: prompt,
+              content: `Explicitly generate a pure JSX code snippet for the component: ${componentName}. Additional parameters: ${JSON.stringify(additionalParams)}`
             },
           ],
           temperature: 0.2,
